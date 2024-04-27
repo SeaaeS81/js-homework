@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тетрис</title>
+    <style>
+        body {
+            background: url('/JavaScript/media/1277486527_alpy.jpg');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="board" width="200" height="400"></canvas>
+    <audio id="music" loop>
+        <source src="/JavaScript/media/5474_pod-zvonok.ru__.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        var canvas = document.getElementById('board');
+        var context = canvas.getContext('2d');
+        var music = document.getElementById('music');
+
+        var grid;
+        var count = 0;
+        var currentBlock = {x: 5, y: 0};
+
+        function init() {
+            grid = Array(20);
+            for (var i = 0; i < grid.length; i++) {
+                grid[i] = Array(10);
+            }
+            music.play();
+        }
+
+        function drawSquare(x, y) {
+            context.fillRect(x * 20, y * 20, 20, 20);
+            context.strokeRect(x * 20, y * 20, 20, 20);
+        }
+
+        function update() {
+            for (var y = 0; y < 20; y++) {
+                for (var x = 0; x < 10; x++) {
+                    if (grid[y][x]) {
+                        drawSquare(x, y);
+                    }
+                }
+            }
+            drawSquare(currentBlock.x, currentBlock.y);
+        }
+
+        function render() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            update();
+            if (count % 10 === 0) {
+                addRow();
+            }
+            if (count % 5 === 0) {
+                moveDown();
+            }
+            count++;
+        }
+
+        function addRow() {
+            for (var y = grid.length - 1; y >= 0; y--) {
+                for (var x = 0; x < 10; x++) {
+                    if (y === 0) {
+                        grid[y][x] = Math.floor(Math.random() * 2);
+                    } else {
+                        grid[y][x] = grid[y - 1][x];
+                    }
+                }
+            }
+        }
+
+        function moveDown() {
+            if (currentBlock.y < 19) {
+                currentBlock.y++;
+            } else {
+                currentBlock = {x: 5, y: 0};
+            }
+        }
+
+        window.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    if (currentBlock.x > 0) {
+                        currentBlock.x--;
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (currentBlock.x < 9) {
+                        currentBlock.x++;
+                    }
+                    break;
+                case 'ArrowDown':
+                    if (currentBlock.y < 19) {
+                        currentBlock.y++;
+                    }
+                    break;
+            }
+        });
+
+        init();
+        setInterval(render, 1000 / 2);
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script src="./ls.js"></script>
+   
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            animation: move 5s infinite;
+        }
+
+        @keyframes move {
+            0% {
+                top: 0px;
+                left: 0px;
+                background: red;
+                width: 100px;
+                height: 100px;
+            }
+            25% {
+                top: 0px;
+                left: 300px;
+                background: orange;
+                width: 200px;
+                height: 100px;
+            }
+            50% {
+                top: 300px;
+                left: 300px;
+                background: yellow;
+                width: 100px;
+                height: 200px;
+            }
+            75% {
+                top: 300px;
+                left: 0px;
+                background: green;
+                width: 200px;
+                height: 200px;
+            }
+            100% {
+                top: 0px;
+                left: 0px;
+                background: red;
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+
+    <button id="startAnimation">Запустити анімацію</button>
+
+<script>
+    const startButton = document.getElementById('startAnimation');
+    const box = document.querySelector('.box');
+
+    startButton.addEventListener('click', async () => {
+        
+        box.style.animationPlayState = 'running';
+
+        
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
+        
+        box.style.animationPlayState = 'paused';
+    });
+</script>
+
+    
+
+</body>
+</html>
